@@ -1,0 +1,13 @@
+{
+  "tfjsVersion": "4.15.0",
+  "tmVersion": "2.4.7",
+  "packageVersion": "0.8.4",
+  "packageName": "@teachablemachine/image",
+  "timeStamp": "2025-12-04T00:00:00.000Z",
+  "userMetadata": {
+    "description": "Sample placeholder model for ASL letters. Replace with your trained export when available."
+  },
+  "modelName": "tm-asl-placeholder",
+  "labels": ["A", "B", "C", "L", "Y"],
+  "imageSize": 224
+}
