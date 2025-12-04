@@ -85,7 +85,9 @@ To replace the default Teachable Machine model:
 - Add speech synthesis to speak interpreted words aloud.  
 - Store completed words in local storage or send them to an API.  
 - Extend support to two-hand gestures or full-sentence interpretation.
-
+- 
+## Live Demo
+https://bonil-crypto.github.io/asl_gtm2025/
 ---
 
 **Developer:** Boni Luna  
