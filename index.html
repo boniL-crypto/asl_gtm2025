@@ -3,30 +3,46 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>ASL Letter Recognition</title>
+    <title>ASL Recognition • Real-Time Sign Language Detection</title>
+    <meta name="description" content="An AI-powered American Sign Language recognition system supporting A-Z and 0-9 with real-time detection using TensorFlow.js">
     <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   </head>
   <body>
+    <div class="animated-bg">
+      <div class="floating-shape shape-1"></div>
+      <div class="floating-shape shape-2"></div>
+      <div class="floating-shape shape-3"></div>
+    </div>
+    
     <header class="hero">
       <div class="hero__content">
-        <p class="eyebrow">Realtime computer-vision suite</p>
-        <h1>ASL Letter Recognition</h1>
+        <div class="badge-container">
+          <span class="badge pulse"><i class="fas fa-hand-peace"></i> AI-Powered Recognition</span>
+          <span class="badge pulse"><i class="fas fa-brain"></i> TensorFlow.js</span>
+        </div>
+        <h1 class="glitch" data-text="ASL Recognition">ASL Recognition</h1>
         <p class="subtitle">
-          Powered by TensorFlow.js and a Teachable Machine image model. Start the model to stream webcam
-          frames, view prediction confidences, and build words in real time.
+          <i class="fas fa-video"></i> Experience real-time American Sign Language detection with cutting-edge computer vision.
+          Supports <strong>A-Z alphabet</strong> and <strong>numbers 0-9</strong> with high-precision AI models.
         </p>
-        <button id="start-model" class="primary start-button">Start Model</button>
+        <button id="start-model" class="primary start-button">
+          <i class="fas fa-play"></i> Start Detection
+        </button>
       </div>
       <div class="hero__metrics">
         <div class="metric-card">
+          <i class="fas fa-camera metric-icon"></i>
           <span>Camera</span>
           <span id="camera-status" class="status-pill offline">Initializing…</span>
         </div>
         <div class="metric-card">
+          <i class="fas fa-cogs metric-icon"></i>
           <span>Pipeline</span>
           <span id="detection-status" class="status-pill idle">Idle</span>
         </div>
         <div class="metric-card">
+          <i class="fas fa-tachometer-alt metric-icon"></i>
           <span>FPS</span>
           <span id="fps-value">0</span>
         </div>
@@ -37,41 +53,50 @@
       <section class="card live-stack">
         <div class="media-stack">
           <div id="webcam-container" class="webcam-shell">
-            <div class="webcam-placeholder">Click “Start Model” to load your Teachable Machine classifier.</div>
+            <div class="webcam-placeholder">
+              <i class="fas fa-video-slash fa-3x"></i>
+              <p>Click "Start Detection" to activate your camera</p>
+            </div>
           </div>
-          <div id="overlay-status" class="overlay-status">Model not started</div>
+          <div id="overlay-status" class="overlay-status">
+            <i class="fas fa-circle"></i> Model not started
+          </div>
         </div>
 
         <div class="control-panel">
           <div class="panel-header">
-            <h2>Realtime Output</h2>
-            <p>Landmarks are tracked directly on your video feed.</p>
+            <h2><i class="fas fa-chart-line"></i> Real-Time Output</h2>
+            <p>AI tracking your sign language gestures</p>
           </div>
 
           <div class="detected-letter-display">
-            <span>Detected Letter</span>
+            <span><i class="fas fa-hand-point-up"></i> Detected</span>
             <span id="detected-letter" class="letter-chip">-</span>
           </div>
 
           <div class="buffer-block">
-            <div class="buffer-label">Current Letter Buffer</div>
+            <div class="buffer-label"><i class="fas fa-stream"></i> Letter Buffer</div>
             <div id="letter-buffer" class="buffer-content">(empty)</div>
           </div>
 
           <div class="prediction-block">
-            <div class="buffer-label">Model Predictions</div>
+            <div class="buffer-label"><i class="fas fa-robot"></i> AI Confidence</div>
             <div id="label-container" class="prediction-list">
               <div class="placeholder">No predictions yet.</div>
             </div>
           </div>
 
           <div class="panel-actions">
-            <button id="interpret-btn" class="primary">Interpret Word</button>
-            <button id="clear-buffer" class="ghost">Clear Buffer</button>
+            <button id="interpret-btn" class="primary">
+              <i class="fas fa-spell-check"></i> Interpret Word
+            </button>
+            <button id="clear-buffer" class="ghost">
+              <i class="fas fa-eraser"></i> Clear Buffer
+            </button>
           </div>
 
           <div class="word-output">
-            <span>Word</span>
+            <span><i class="fas fa-font"></i> Word</span>
             <span id="word-display">(empty)</span>
           </div>
         </div>
@@ -80,7 +105,7 @@
       <section class="insight-grid">
         <article class="card">
           <div class="card-header">
-            <h3>Recent Letters</h3>
+            <h3><i class="fas fa-history"></i> Recent Letters</h3>
             <p>The most recent stable detections.</p>
           </div>
           <ul id="letter-history" class="history-list">
@@ -90,8 +115,8 @@
 
         <article class="card">
           <div class="card-header">
-            <h3>System Log</h3>
-            <p>Streaming debug statements straight from the pipeline.</p>
+            <h3><i class="fas fa-terminal"></i> System Log</h3>
+            <p>Streaming debug statements from the pipeline.</p>
           </div>
           <div id="system-log" class="log-panel">
             <p class="placeholder">Waiting for events…</p>
@@ -99,47 +124,132 @@
         </article>
       </section>
 
-      <section class="card instructions">
-      <div>
-        <h3>How to run</h3>
-        <ol>
-          <li>Open the page in your browser.</li>
-          <li>Allow the camera when your browser asks for permission.</li>
-          <li>Click <strong>Start Model</strong> to turn on the system.</li>
-          <li>Show your hand signs clearly in front of the camera.</li>
-          <li>Click <strong>Interpret Word</strong> to see the word formed.</li>
-          <li>Click <strong>Clear Buffer</strong> to start again anytime.</li>
-          <li>Refresh the page if you want to reset everything.</li>
-        </ol>
-      </div>
+      <section class="asl-reference-section">
+        <div class="reference-header">
+          <h2><i class="fas fa-book-open"></i> ASL Reference Guide</h2>
+          <p>Complete alphabet A-Z and numbers 0-9 supported</p>
+        </div>
+        
+        <div class="reference-grid">
+          <div class="reference-category">
+            <h3><i class="fas fa-font"></i> Alphabet (A-Z)</h3>
+            <div class="letter-grid">
+              <div class="letter-item">A</div>
+              <div class="letter-item">B</div>
+              <div class="letter-item">C</div>
+              <div class="letter-item">D</div>
+              <div class="letter-item">E</div>
+              <div class="letter-item">F</div>
+              <div class="letter-item">G</div>
+              <div class="letter-item">H</div>
+              <div class="letter-item">I</div>
+              <div class="letter-item">J</div>
+              <div class="letter-item">K</div>
+              <div class="letter-item">L</div>
+              <div class="letter-item">M</div>
+              <div class="letter-item">N</div>
+              <div class="letter-item">O</div>
+              <div class="letter-item">P</div>
+              <div class="letter-item">Q</div>
+              <div class="letter-item">R</div>
+              <div class="letter-item">S</div>
+              <div class="letter-item">T</div>
+              <div class="letter-item">U</div>
+              <div class="letter-item">V</div>
+              <div class="letter-item">W</div>
+              <div class="letter-item">X</div>
+              <div class="letter-item">Y</div>
+              <div class="letter-item">Z</div>
+            </div>
+          </div>
 
-        <div>
-          <h3>Supported letters (prototype)</h3>
+          <div class="reference-category">
+            <h3><i class="fas fa-hashtag"></i> Numbers (0-9)</h3>
+            <div class="number-grid">
+              <div class="number-item">0</div>
+              <div class="number-item">1</div>
+              <div class="number-item">2</div>
+              <div class="number-item">3</div>
+              <div class="number-item">4</div>
+              <div class="number-item">5</div>
+              <div class="number-item">6</div>
+              <div class="number-item">7</div>
+              <div class="number-item">8</div>
+              <div class="number-item">9</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="card instructions">
+        <div class="instruction-column">
+          <h3><i class="fas fa-rocket"></i> How to Use</h3>
+          <ol>
+            <li><i class="fas fa-check-circle"></i> Open the page in your browser</li>
+            <li><i class="fas fa-check-circle"></i> Allow camera access when prompted</li>
+            <li><i class="fas fa-check-circle"></i> Click <strong>Start Detection</strong> to activate the AI</li>
+            <li><i class="fas fa-check-circle"></i> Show your ASL signs clearly to the camera</li>
+            <li><i class="fas fa-check-circle"></i> Click <strong>Interpret Word</strong> to see results</li>
+            <li><i class="fas fa-check-circle"></i> Click <strong>Clear Buffer</strong> to start over</li>
+          </ol>
+        </div>
+
+        <div class="instruction-column">
+          <h3><i class="fas fa-lightbulb"></i> Pro Tips</h3>
           <ul>
-            <li>A — Thumb up, other fingers folded.</li>
-            <li>B — Four fingers extended, thumb across palm.</li>
-            <li>C — Hand curved into a “C”.</li>
-            <li>L — Thumb and index extended like an L.</li>
-            <li>Y — Thumb and pinky extended, others folded.</li>
+            <li><i class="fas fa-sun"></i> Use good lighting for best accuracy</li>
+            <li><i class="fas fa-hand-paper"></i> Keep hand centered in frame</li>
+            <li><i class="fas fa-clock"></i> Hold each sign for 1-2 seconds</li>
+            <li><i class="fas fa-palette"></i> Plain background works best</li>
+            <li><i class="fas fa-expand"></i> Maintain consistent distance from camera</li>
           </ul>
         </div>
       </section>
 
       <section class="card troubleshooting">
-        <h3>Troubleshooting</h3>
-        <ul>
-          <li>Use a well-lit background with minimal clutter for better tracking.</li>
-          <li>If the video is black, ensure no other tab is using the webcam.</li>
-          <li>Refresh the page after granting permissions if the camera stays idle.</li>
-          <li>Hold gestures steady for a short moment to register the letter.</li>
-        </ul>
+        <h3><i class="fas fa-wrench"></i> Troubleshooting</h3>
+        <div class="troubleshooting-grid">
+          <div class="trouble-item">
+            <i class="fas fa-video-slash"></i>
+            <strong>Camera Not Working?</strong>
+            <p>Ensure no other application is using your webcam and refresh the page.</p>
+          </div>
+          <div class="trouble-item">
+            <i class="fas fa-exclamation-triangle"></i>
+            <strong>Low Accuracy?</strong>
+            <p>Improve lighting, use a plain background, and hold signs steadily.</p>
+          </div>
+          <div class="trouble-item">
+            <i class="fas fa-redo"></i>
+            <strong>Model Not Loading?</strong>
+            <p>Check your internet connection and try refreshing the browser.</p>
+          </div>
+          <div class="trouble-item">
+            <i class="fas fa-tachometer-alt"></i>
+            <strong>Slow Performance?</strong>
+            <p>Close other browser tabs and ensure your device meets minimum requirements.</p>
+          </div>
+        </div>
       </section>
     </main>
 
     <footer>
-      <p>ASL Letter Recognition &copy; <span id="year"></span> • Built with Teachable Machine + TensorFlow.js • Developer: Boni Luna</p>
+      <div class="footer-content">
+        <p>
+          <i class="fas fa-hand-sparkles"></i> ASL Recognition System &copy; <span id="year">2025</span>
+        </p>
+        <p>
+          Built with <i class="fas fa-heart"></i> using TensorFlow.js & Teachable Machine
+        </p>
+        <p class="developer">
+          <i class="fas fa-code"></i> Developer: <strong>Boni Luna</strong>
+        </p>
+      </div>
     </footer>
 
+    <script>
+      document.getElementById('year').textContent = new Date().getFullYear();
+    </script>
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest/dist/tf.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@latest/dist/teachablemachine-image.min.js"></script>
     <script type="module" src="js/app.js"></script>

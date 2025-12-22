@@ -137,7 +137,12 @@ export function updatePredictionUI(prediction) {
 
 export function setWebcamPlaceholder(message = defaultWebcamMessage) {
   if (!elements.webcamContainer) return;
-  elements.webcamContainer.innerHTML = `<div class="webcam-placeholder">${message}</div>`;
+  elements.webcamContainer.innerHTML = `
+    <div class="webcam-placeholder">
+      <i class="fas fa-video-slash fa-3x"></i>
+      <p>${message}</p>
+    </div>
+  `;
   elements.webcamContainer.classList.remove('webcam-shell--active');
 }
 
